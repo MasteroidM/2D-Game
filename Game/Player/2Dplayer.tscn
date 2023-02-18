@@ -1,8 +1,9 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://Player/2Dplayer.gd" type="Script" id=1]
 [ext_resource path="res://Player/Player.png" type="Texture" id=2]
 [ext_resource path="res://boxes/hit.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Player/swordhit.gd" type="Script" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
@@ -654,7 +655,7 @@ script = ExtResource( 1 )
 position = Vector2( 0, -9 )
 texture = ExtResource( 2 )
 hframes = 60
-frame = 1
+frame = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = -1.5708
@@ -696,9 +697,18 @@ position = Vector2( 0, -4 )
 position = Vector2( 15, -1 )
 collision_layer = 4
 collision_mask = 8
+script = ExtResource( 4 )
 
 [node name="CollisionShape2D" parent="hitboxpivot/swordhitbox" index="0"]
 shape = SubResource( 42 )
 disabled = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+rotation = -1.5708
+shape = SubResource( 1 )
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 
 [editable path="hitboxpivot/swordhitbox"]

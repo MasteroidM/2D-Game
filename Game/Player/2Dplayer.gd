@@ -17,9 +17,11 @@ var roll_vector = Vector2.ZERO
 onready var animationplayer = $AnimationPlayer
 onready var animationtree = $AnimationTree
 onready var animationstate = animationtree.get("parameters/playback")
+onready var swordhitbox = $hitboxpivot/swordhitbox
 
 func _ready():
 	animationtree.active = true
+	swordhitbox.knockback_vector = roll_vector
 
 func _physics_process(delta):
 	match state:
@@ -40,6 +42,7 @@ func move_(delta):
 	
 	if input_vector != Vector2.ZERO:
 		roll_vector = input_vector
+		swordhitbox.knockback_vector = input_vector
 		animationtree.set("parameters/idle/blend_position",input_vector)
 		animationtree.set("parameters/run/blend_position",input_vector)
 		animationtree.set("parameters/atk/blend_position",input_vector)
@@ -75,4 +78,6 @@ func atk_finish():
 func roll_finished():
 	state = move
 
-
+func _on_Area2D_area_entered(area):
+	if(area.name=='quit'):
+		get_tree().quit()
